@@ -4,17 +4,22 @@ class TodoList extends Component {
   tasks = () => this.props.tasks()
 
   render() {
-    const tasks = this.tasks().map(task => {
-        return (<li key={task.key}>{task.text}</li>)
+    const tasks = this.tasks().map((task) => {
+      return (
+        <li
+          style={{cursor: 'pointer', textDecoration: task.completed ? 'line-through' : 'default'}}
+          key={task.key}
+          onClick={(() => this.props.completeTask(task.key))}>
+
+          {task.text}
+        </li>
+      )
     })
 
     return (
       <>
-        <ul style={{listStyleType: 'none'}}>
-          {tasks}
-        </ul>
         <div className="TodoList">
-          <form onSubmit={this.props.addItem}>
+          <form onSubmit={this.props.addTask}>
             <input
               placeholder='Task'
               ref={this.props.newTaskRef}
@@ -22,6 +27,9 @@ class TodoList extends Component {
             <button type='submit'>Add Task</button>
           </form>
         </div>
+        <ul style={{listStyleType: 'none'}}>
+          {tasks}
+        </ul>
       </>
     );
   }
